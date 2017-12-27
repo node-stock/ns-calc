@@ -1,0 +1,39 @@
+{
+  "name": "ns-calc",
+  "version": "0.0.1",
+  "description": "node-stock manager module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/node-stock/ns-manager"
+  },
+  "license": "GPL3",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "rm": "rimraf dist",
+    "tsc": "npm run rm && tsc -p tsconfig.development.json",
+    "tslint": "tslint --project ./tslint.json",
+    "test": "jest",
+    "prepare": "npm run rm && tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "bignumber.js": "^5.0.0",
+    "jest": "^22.0.3",
+    "moment": "^2.19.3",
+    "ns-types": "0.0.38",
+    "ts-jest": "^22.0.0"
+  },
+  "devDependencies": {
+    "@types/bignumber.js": "^4.0.3",
+    "@types/config": "0.0.33",
+    "@types/jest": "^21.1.9",
+    "@types/node": "^8.5.1",
+    "@types/power-assert": "^1.4.29",
+    "cross-env": "^5.1.0",
+    "power-assert": "^1.4.4",
+    "rimraf": "^2.6.2",
+    "ts-node": "^4.0.2",
+    "tslint": "^5.6.0",
+    "typescript": "^2.6.1"
+  }
+}

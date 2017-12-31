@@ -1,6 +1,6 @@
 {
   "name": "ns-calc",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "node-stock manager module",
   "repository": {
     "type": "git",
@@ -20,8 +20,7 @@
     "bignumber.js": "^5.0.0",
     "moment": "^2.19.3",
     "ns-common": "0.0.12",
-    "ns-types": "0.0.38",
-    "ts-jest": "^22.0.0"
+    "ns-types": "0.0.38"
   },
   "devDependencies": {
     "@types/bignumber.js": "^4.0.3",

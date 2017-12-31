@@ -1,6 +1,5 @@
 import { Calc } from './calc';
 import * as types from 'ns-types';
-import 'jest';
 
 const testOpenPosition = () => {
 

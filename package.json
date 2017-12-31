@@ -20,6 +20,7 @@
     "bignumber.js": "^5.0.0",
     "jest": "^22.0.3",
     "moment": "^2.19.3",
+    "ns-common": "0.0.12",
     "ns-types": "0.0.38",
     "ts-jest": "^22.0.0"
   },
@@ -35,5 +36,20 @@
     "ts-node": "^4.0.2",
     "tslint": "^5.6.0",
     "typescript": "^2.6.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.ts": "ts-jest"
+    },
+    "testRegex": "(dist/.*\\.(test|spec))\\.(js|ts)$",
+    "collectCoverageFrom": [
+      "src/**/*.ts"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json",
+      "node"
+    ]
   }
 }

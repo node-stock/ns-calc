@@ -102,8 +102,8 @@ const testClosePosition = () => {
 
 describe('ns-calc', () => {
 
-  // it('测试多单建仓', testOpenPosition);
-  // it('测试多单建仓2', testOpenPosition2);
+  it('测试多单建仓', testOpenPosition);
+  it('测试多单建仓2', testOpenPosition2);
   it('测试多单平仓', testClosePosition);
 
 });

@@ -2,6 +2,12 @@ import * as types from 'ns-types';
 import { BigNumber } from 'BigNumber.js';
 import { Log, Util } from 'ns-common';
 
+
+export interface IAccPosi {
+  account: types.Account,
+  position: types.Position | null
+}
+
 /**
   * @class
   * @classdesc 计算器
@@ -24,12 +30,12 @@ export class Calc {
       Log.system.error(`暂时未对应做空!`);
       return;
     }
-
+    let position = null;
     switch (options.order.side) {
       // 多单买入
       case types.OrderSide.Buy:
         Log.system.info('多单建仓');
-        let position = options.account.positions.find(o =>
+        position = options.account.positions.find(o =>
           o.symbol === options.order.symbol && o.side === types.OrderSide.Buy
         );
         // 已有持仓
@@ -82,7 +88,7 @@ export class Calc {
         break;
     }
     Log.system.info('计算建仓[终了]');
-    return Object.assign(options.account);
+    return <IAccPosi>{ account: options.account, position };
   }
 
   static closePosition(options: {
@@ -101,12 +107,12 @@ export class Calc {
       Log.system.error(`暂时未对应空单平仓!`);
       return;
     }
-
+    let position = null;
     switch (options.order.side) {
       // 多单平仓
       case types.OrderSide.BuyClose:
         Log.system.info('多单平仓');
-        const position = options.account.positions.find(o =>
+        position = options.account.positions.find(o =>
           o.symbol === options.order.symbol && o.side === types.OrderSide.Buy
         );
         // 已有持仓
@@ -146,6 +152,6 @@ export class Calc {
         break;
     }
     Log.system.info('计算平仓[终了]');
-    return Object.assign(options.account);
+    return <IAccPosi>{ account: options.account, position };
   }
 }

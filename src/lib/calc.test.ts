@@ -81,7 +81,7 @@ const testOrder = () => {
     positions: [],
     transactions: []
   }
-  const order: types.LimitOrder = {
+  const order: types.Order = {
     account_id: 'test',
     symbol: types.Pair.BTC_JPY,
     price: '1675000',
@@ -129,7 +129,7 @@ const testOpenPosition = () => {
     positions: [],
     transactions: []
   }
-  const order: types.LimitOrder = {
+  const order: types.Order = {
     account_id: 'test',
     symbol: types.Pair.BCC_JPY,
     price: '1675000',
@@ -236,7 +236,7 @@ const testOpenPosition2 = () => {
     positions,
     transactions: []
   }
-  const order: types.LimitOrder = {
+  const order: types.Order = {
     account_id: 'test',
     symbol: types.Pair.BTC_JPY,
     price: '1675000',
@@ -343,7 +343,7 @@ const testClosePosition = () => {
     positions,
     transactions: []
   }
-  const order: types.LimitOrder = {
+  const order: types.Order = {
     account_id: 'test',
     symbol: types.Pair.BTC_JPY,
     price: '1675000',
@@ -371,7 +371,7 @@ const testCalcEarning = () => {
     quantity: '0.0001',
     backtest: '1'
   };
-  const order: types.LimitOrder = {
+  const order: types.Order = {
     id: '1515241780293',
     account_id: 'test',
     symbol: types.Pair.BCC_BTC,
@@ -390,7 +390,12 @@ const testCalcEarning = () => {
 
 const testStopLoss = () => {
 
-  const res = Calc.stopLoss('329');
+  const res = Calc.stopLoss(types.Pair.XRP_JPY, '329');
+  console.log(JSON.stringify(res, null, 2));
+}
+const testStopLoss2 = () => {
+
+  const res = Calc.stopLoss(types.Pair.XRP_JPY, '334.729');
   console.log(JSON.stringify(res, null, 2));
 }
 
@@ -400,6 +405,7 @@ describe('ns-calc', () => {
   // it('测试多单建仓', testOpenPosition);
   // it('测试多单建仓2', testOpenPosition2);
   // it('测试多单平仓', testClosePosition);
-  it('测试计算收益表', testCalcEarning);
+  // it('测试计算收益表', testCalcEarning);
+  it('测试计算收益表2', testStopLoss2);
   // it('测试止损', testStopLoss);
 });

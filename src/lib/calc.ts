@@ -343,7 +343,9 @@ export class Calc {
   }
 
   // 计算止损
-  static stopLoss(open: string) {
-    return new BigNumber(open).times(0.95).toString();
+  static stopLoss(symbol: string, open: string) {
+    const { type } = Util.getTradeUnit(symbol);
+    const fixedNum = type === types.AssetType.Jpy ? 4 : 8;
+    return new BigNumber(open).times(0.95).toFixed(fixedNum);
   }
 }

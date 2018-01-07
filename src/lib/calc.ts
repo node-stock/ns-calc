@@ -26,14 +26,14 @@ export class Calc {
       // 购买总价 = 订单价格*订单数量
       const contractPrice = new BigNumber(options.order.price).
         times(options.order.amount);
-      Log.system.info(`购买总价(${contractPrice.toString()}) =
+      Log.system.info(`购买总价(${contractPrice.toFixed()}) =
           订单价格(${options.order.price}) * 订单数量(${options.order.amount})`);
 
       const fee = Util.getFee(options.order.symbol);
       // 交易成本 = 购买总价 + 手续费
       const tradeCost = contractPrice.plus(fee);
-      Log.system.info(`交易成本(${tradeCost.toString()}) =
-        购买总价(${contractPrice.toString()}) + 手续费(${fee})`);
+      Log.system.info(`交易成本(${tradeCost.toFixed()}) =
+        购买总价(${contractPrice.toFixed()}) + 手续费(${fee})`);
       const asset = Calc.getAsset(options.order.symbol, options.account.assets);
       if (!asset) {
         return;
@@ -42,24 +42,24 @@ export class Calc {
       const old_free_amount = asset.free_amount;
       // 可用余币 = 当前余币 - 交易成本
       const free_amount = new BigNumber(old_free_amount).minus(tradeCost);
-      Log.system.info(`可用余额(${free_amount.toString()}) =
+      Log.system.info(`可用余额(${free_amount.toFixed()}) =
         当前余额(${old_free_amount}) - 交易成本(${contractPrice})`);
       if (free_amount.isNegative()) {
-        Log.system.warn(`可用余额(${free_amount.toString()})为负数！`);
+        Log.system.warn(`可用余额(${free_amount.toFixed()})为负数！`);
         asset.free_amount = '0';
       } else {
-        asset.free_amount = free_amount.toString();
+        asset.free_amount = free_amount.toFixed();
       }
 
       // 锁仓量 = 当前锁仓量 + 交易成本
       const locked_amount = new BigNumber(asset.locked_amount).plus(tradeCost);
-      Log.system.info(`锁仓量(${locked_amount.toString()}) =
-        当前锁仓量(${asset.locked_amount}) + 交易成本(${tradeCost.toString()})`);
+      Log.system.info(`锁仓量(${locked_amount.toFixed()}) =
+        当前锁仓量(${asset.locked_amount}) + 交易成本(${tradeCost.toFixed()})`);
       if (locked_amount.isNegative()) {
-        Log.system.warn(`锁仓量(${locked_amount.toString()})为负数！`);
+        Log.system.warn(`锁仓量(${locked_amount.toFixed()})为负数！`);
         asset.locked_amount = '0';
       } else {
-        asset.locked_amount = locked_amount.toString();
+        asset.locked_amount = locked_amount.toFixed();
       }
     }
     Log.system.info('计算下单[终了]');
@@ -116,10 +116,10 @@ export class Calc {
           Log.system.info('已有持仓信息：', JSON.stringify(position, null, 2));
           // 更新数量（已有数量+订单数量）
           position.quantity = new BigNumber(position.quantity)
-            .plus(new BigNumber(options.order.amount)).toString();
+            .plus(new BigNumber(options.order.amount)).toFixed();
           // 更新持仓均价（(已有仓位价格+订单价格）/2）
           position.price = new BigNumber(position.price)
-            .plus(options.order.price).div(2).toString();
+            .plus(options.order.price).div(2).toFixed();
         } else { // 建仓
           position = {
             account_id: options.account.id,
@@ -138,7 +138,7 @@ export class Calc {
         // 购买总价 = 订单价格*订单数量
         const contractPrice = new BigNumber(options.order.price).
           times(options.order.amount);
-        Log.system.info(`购买总价(${contractPrice.toString()}) =
+        Log.system.info(`购买总价(${contractPrice.toFixed()}) =
           订单价格(${options.order.price}) * 订单数量(${options.order.amount})`);
 
         const fee = Util.getFee(options.order.symbol);
@@ -151,31 +151,31 @@ export class Calc {
         const old_free_amount = asset.free_amount;
         // 可用余币 = 当前余币 - 交易成本
         const free_amount = new BigNumber(old_free_amount).minus(tradeCost);
-        Log.system.info(`可用余额(${free_amount.toString()}) =
+        Log.system.info(`可用余额(${free_amount.toFixed()}) =
           当前余额(${old_free_amount}) - 购买总价(${contractPrice}) - 手续费(${fee})`);
         if (free_amount.isNegative()) {
-          Log.system.warn(`可用余额(${free_amount.toString()})为负数！`);
+          Log.system.warn(`可用余额(${free_amount.toFixed()})为负数！`);
           asset.free_amount = '0';
         } else {
-          asset.free_amount = free_amount.toString();
+          asset.free_amount = free_amount.toFixed();
         }
 
         // 保有量 = 当前保有量 - 交易成本
         const onhand_amount = new BigNumber(asset.onhand_amount).minus(tradeCost);
         if (onhand_amount.isNegative()) {
-          Log.system.warn(`可用余额(${onhand_amount.toString()})为负数！`);
+          Log.system.warn(`可用余额(${onhand_amount.toFixed()})为负数！`);
           asset.onhand_amount = '0';
         } else {
-          asset.onhand_amount = onhand_amount.toString();
+          asset.onhand_amount = onhand_amount.toFixed();
         }
 
         // 锁仓量 = 当前锁仓量 - 交易成本
         const locked_amount = new BigNumber(asset.locked_amount).minus(tradeCost);
         if (locked_amount.isNegative()) {
-          Log.system.warn(`锁仓量(${locked_amount.toString()})为负数！`);
+          Log.system.warn(`锁仓量(${locked_amount.toFixed()})为负数！`);
           asset.locked_amount = '0';
         } else {
-          asset.locked_amount = locked_amount.toString();
+          asset.locked_amount = locked_amount.toFixed();
         }
 
         // 购买的商品
@@ -202,8 +202,8 @@ export class Calc {
           options.account.assets.push(asset);
         } else {
           // 更新资产
-          buyAsset.onhand_amount = new BigNumber(buyAsset.onhand_amount).plus(options.order.amount).toString();
-          buyAsset.free_amount = new BigNumber(buyAsset.free_amount).plus(options.order.amount).toString();
+          buyAsset.onhand_amount = new BigNumber(buyAsset.onhand_amount).plus(options.order.amount).toFixed();
+          buyAsset.free_amount = new BigNumber(buyAsset.free_amount).plus(options.order.amount).toFixed();
           Log.system.info(`已持有购买商品(${buySymbol})资产，更新资产(${JSON.stringify(buyAsset, null, 2)}`);
         }
         break;
@@ -243,7 +243,7 @@ export class Calc {
           Log.system.info('已有持仓信息：', JSON.stringify(position, null, 2));
           // 更新数量（已有数量-订单数量）
           position.quantity = new BigNumber(position.quantity)
-            .minus(options.order.amount).toString();
+            .minus(options.order.amount).toFixed();
         } else {
           Log.system.error('平多出错，未找到多单持仓[异常终了]');
           return;
@@ -252,7 +252,7 @@ export class Calc {
         // 平仓总价 = 订单价格*订单数量
         const contractPrice = new BigNumber(options.order.price).
           times(options.order.amount);
-        Log.system.info(`平仓总价(${contractPrice.toString()}) =
+        Log.system.info(`平仓总价(${contractPrice.toFixed()}) =
           订单价格(${options.order.price}) * 订单数量(${options.order.amount})`);
 
         const useBitcoin = Util.getTradeUnit(options.order.symbol).type === types.AssetType.Btc;
@@ -267,24 +267,24 @@ export class Calc {
         const old_free_amount = asset.free_amount;
         // 可用余币 = 当前余币 + 交易成本
         const free_amount = new BigNumber(old_free_amount).plus(tradeCost);
-        Log.system.info(`可用余额(${free_amount.toString()}) =
+        Log.system.info(`可用余额(${free_amount.toFixed()}) =
           当前余额(${old_free_amount}) + 交易成本(${contractPrice})`);
         if (free_amount.isNegative()) {
-          Log.system.warn(`可用余额(${free_amount.toString()})为负数！`);
+          Log.system.warn(`可用余额(${free_amount.toFixed()})为负数！`);
           asset.free_amount = '0';
         } else {
-          asset.free_amount = free_amount.toString();
+          asset.free_amount = free_amount.toFixed();
         }
 
         // 锁仓量 = 当前锁仓量 - 交易成本
         const locked_amount = new BigNumber(asset.locked_amount).minus(tradeCost);
-        Log.system.info(`锁仓量(${locked_amount.toString()}) =
+        Log.system.info(`锁仓量(${locked_amount.toFixed()}) =
         当前锁仓量(${asset.locked_amount}) - 交易成本(${contractPrice})`);
         if (locked_amount.isNegative()) {
-          Log.system.warn(`锁仓量(${locked_amount.toString()})为负数！`);
+          Log.system.warn(`锁仓量(${locked_amount.toFixed()})为负数！`);
           asset.locked_amount = '0';
         } else {
-          asset.locked_amount = locked_amount.toString();
+          asset.locked_amount = locked_amount.toFixed();
         }
         delete asset.updated_at;
         break;
@@ -313,16 +313,16 @@ export class Calc {
     const fee = Util.getFee(order.symbol);
     // 持仓总价 = 持仓价格*订单数量 + 手续费
     const openPrice = new BigNumber(position.price).times(order.amount).plus(fee);
-    Log.system.info(`持仓总价(${openPrice.toString()}) =
+    Log.system.info(`持仓总价(${openPrice.toFixed()}) =
       持仓价格(${position.price}) * 订单数量(${order.amount}) + 手续费(${fee})`);
     // 平仓总价 = 订单价格*订单数量 - 手续费
     const closePrice = new BigNumber(order.price).times(order.amount).minus(fee);
-    Log.system.info(`平仓总价(${closePrice.toString()}) =
+    Log.system.info(`平仓总价(${closePrice.toFixed()}) =
       订单价格(${order.price}) * 订单数量(${order.amount}) - 手续费(${fee})`);
 
     // 点差 = 订单价格 - 持仓价格
     const pips = new BigNumber(order.price).minus(position.price);
-    Log.system.info(`点差(${pips.toString()}) = 订单价格(${order.price}) - 持仓价格(${position.price})`);
+    Log.system.info(`点差(${pips.toFixed()}) = 订单价格(${order.price}) - 持仓价格(${position.price})`);
 
 
     const earning: types.Earning = {
@@ -331,14 +331,19 @@ export class Calc {
       type: position.type,
       side: order.side,
       quantity: order.amount,
-      profit: closePrice.minus(openPrice).toString(),
-      pips: pips.toString(),
+      profit: closePrice.minus(openPrice).toFixed(),
+      pips: pips.toFixed(),
       open: position.price,
       close: order.price,
-      fee: new BigNumber(fee).times(2).toString(),
+      fee: new BigNumber(fee).times(2).toFixed(),
       backtest: order.backtest
     }
     Log.system.info('计算收益[终了]');
     return earning;
+  }
+
+  // 计算止损
+  static stopLoss(open: string) {
+    return new BigNumber(open).times(0.95).toString();
   }
 }

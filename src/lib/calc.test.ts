@@ -361,11 +361,45 @@ const testClosePosition = () => {
   console.log(JSON.stringify(res, null, 2));
 }
 
+const testCalcEarning = () => {
+  const position: types.Position = {
+    account_id: 'test',
+    symbol: types.Pair.BTC_JPY,
+    type: types.SymbolType.cryptocoin,
+    side: types.OrderSide.Buy,
+    price: '0.14800000  ',
+    quantity: '0.0001',
+    backtest: '1'
+  };
+  const order: types.LimitOrder = {
+    id: '1515241780293',
+    account_id: 'test',
+    symbol: types.Pair.BCC_BTC,
+    price: '0.15211822',
+    amount: '0.0001',
+    symbolType: types.SymbolType.cryptocoin,
+    eventType: types.EventType.Order,
+    tradeType: types.TradeType.Spot,
+    orderType: types.OrderType.Limit,
+    side: types.OrderSide.BuyClose,
+    backtest: '1'
+  }
+  const res = Calc.calcEarning(position, order);
+  console.log(JSON.stringify(res, null, 2));
+}
+
+const testStopLoss = () => {
+
+  const res = Calc.stopLoss('329');
+  console.log(JSON.stringify(res, null, 2));
+}
+
 describe('ns-calc', () => {
 
   // it('测试多单订单', testOrder);
-  it('测试多单建仓', testOpenPosition);
+  // it('测试多单建仓', testOpenPosition);
   // it('测试多单建仓2', testOpenPosition2);
   // it('测试多单平仓', testClosePosition);
-
+  it('测试计算收益表', testCalcEarning);
+  // it('测试止损', testStopLoss);
 });
